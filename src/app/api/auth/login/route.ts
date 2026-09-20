@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { citizens } from "@/db/schema";
 import { createSession } from "@/lib/auth";
-import { safeReturnTo, redirectWith } from "@/lib/http";
+import { absoluteUrl, safeReturnTo, redirectWith } from "@/lib/http";
 import { verifyPassword } from "@/lib/password";
 import { formObject, loginSchema } from "@/lib/validation";
 
@@ -17,5 +17,5 @@ export async function POST(request: Request) {
     return redirectWith(request, "/login", "error", "Email or password is incorrect.");
   }
   await createSession(citizen.id);
-  return NextResponse.redirect(new URL(safeReturnTo(form.get("returnTo"), "/app"), request.url), 303);
+  return NextResponse.redirect(absoluteUrl(request, safeReturnTo(form.get("returnTo"), "/app")), 303);
 }

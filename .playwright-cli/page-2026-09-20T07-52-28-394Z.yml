@@ -1,0 +1,70 @@
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Fresco home" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]: Fresco
+        - generic [ref=e9]: v0.1
+      - navigation "Primary navigation" [ref=e10]:
+        - link "About" [ref=e11] [cursor=pointer]:
+          - /url: /about
+        - link "Method" [ref=e12] [cursor=pointer]:
+          - /url: /method
+        - link "Principles" [ref=e13] [cursor=pointer]:
+          - /url: /principles
+        - link "Experiments" [ref=e14] [cursor=pointer]:
+          - /url: /experiments
+      - generic [ref=e15]:
+        - link "Sign in" [ref=e16] [cursor=pointer]:
+          - /url: /login
+        - link "Join" [active] [ref=e17] [cursor=pointer]:
+          - /url: /join
+  - main [ref=e18]:
+    - generic [ref=e184]:
+      - generic [ref=e185]:
+        - paragraph [ref=e186]: Founding cohort
+        - heading "Become a citizen, not a user." [level=1] [ref=e187]
+        - paragraph [ref=e188]: Citizens can propose goals, design interventions, join experiments voluntarily, challenge conclusions, and help decide what to test next.
+        - list [ref=e189]:
+          - listitem [ref=e190]: ✓ No public reputation score
+          - listitem [ref=e191]: ✓ No hidden experiments
+          - listitem [ref=e192]: ✓ Withdraw at any time
+          - listitem [ref=e193]: ✓ Delete your account
+      - generic [ref=e194]:
+        - generic [ref=e195]:
+          - paragraph [ref=e196]: Create your account
+          - heading "Join the experiment" [level=2] [ref=e197]
+        - generic [ref=e198]:
+          - generic [ref=e199]:
+            - generic [ref=e200]: Display name
+            - textbox "Display name" [ref=e201]
+          - generic [ref=e202]:
+            - generic [ref=e203]: Email
+            - textbox "Email" [ref=e204]
+          - generic [ref=e205]:
+            - generic [ref=e206]: Password
+            - textbox "Password" [ref=e207]
+            - generic [ref=e208]: At least 10 characters. Passwords are salted and hashed.
+        - button "Become a founding citizen" [ref=e209]
+        - paragraph [ref=e210]:
+          - text: Already a citizen?
+          - link "Sign in" [ref=e211] [cursor=pointer]:
+            - /url: /login
+  - contentinfo [ref=e168]:
+    - generic [ref=e169]:
+      - generic [ref=e170]:
+        - link "Fresco home" [ref=e171] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e175]: Fresco
+          - generic [ref=e176]: v0.1
+        - paragraph [ref=e177]: A continuous environmental design system for human life. Open, experimental, and unaffiliated with The Venus Project or related organizations.
+      - navigation "Footer navigation" [ref=e178]:
+        - link "Method" [ref=e179] [cursor=pointer]:
+          - /url: /method
+        - link "Principles" [ref=e180] [cursor=pointer]:
+          - /url: /principles
+        - link "Research" [ref=e181] [cursor=pointer]:
+          - /url: /research
+        - link "Source" [ref=e182] [cursor=pointer]:
+          - /url: /github
+  - alert [ref=e183]: Become a citizen — Fresco

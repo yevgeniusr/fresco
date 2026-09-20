@@ -1,0 +1,162 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Fresco home" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]: Fresco
+        - generic [ref=e9]: v0.1
+      - navigation "Primary navigation" [ref=e10]:
+        - link "About" [ref=e11] [cursor=pointer]:
+          - /url: /about
+        - link "Method" [ref=e12] [cursor=pointer]:
+          - /url: /method
+        - link "Principles" [ref=e13] [cursor=pointer]:
+          - /url: /principles
+        - link "Experiments" [ref=e14] [cursor=pointer]:
+          - /url: /experiments
+      - generic [ref=e15]:
+        - link "Sign in" [ref=e16] [cursor=pointer]:
+          - /url: /login
+        - link "Join" [ref=e17] [cursor=pointer]:
+          - /url: /join
+  - main [ref=e18]:
+    - generic [ref=e19]:
+      - generic [ref=e20]:
+        - paragraph [ref=e21]: An open experimental community
+        - heading [level=1] [ref=e23]:
+          - text: Design better
+          - emphasis [ref=e24]: environments.
+        - paragraph [ref=e25]: Run experiments. Improve how we live. Fresco explores how intentionally designed digital, social, and eventually physical environments can make healthy, educated, connected, creative lives easier.
+        - generic [ref=e26]:
+          - link "Join the experiment" [ref=e27] [cursor=pointer]:
+            - /url: /join
+          - link "Explore experiments" [ref=e31] [cursor=pointer]:
+            - /url: /experiments
+          - link "View source" [ref=e32] [cursor=pointer]:
+            - /url: /github
+        - link "The premise" [ref=e37] [cursor=pointer]:
+          - /url: "#premise"
+      - generic [ref=e41]:
+        - generic [ref=e44]: Humanoutcome
+        - generic [ref=e46]: observe
+        - generic [ref=e47]: experiment
+        - generic [ref=e48]: learn
+        - img "An evolving composition of observed outcomes and experiments" [ref=e49]
+    - generic [ref=e55]:
+      - generic [ref=e56]:
+        - paragraph [ref=e57]: The premise
+        - heading "We keep asking people to change inside systems designed for the opposite." [level=2] [ref=e58]
+      - generic [ref=e59]:
+        - article [ref=e60]:
+          - text: ↳
+          - heading "Exercise" [level=3] [ref=e61]
+          - paragraph [ref=e62]: Make movement social and nearby, instead of adding another reminder.
+        - article [ref=e63]:
+          - text: ↳
+          - heading "Learning" [level=3] [ref=e64]
+          - paragraph [ref=e65]: Turn a vague intention into one relevant, self-chosen next question.
+        - article [ref=e66]:
+          - text: ↳
+          - heading "Loneliness" [level=3] [ref=e67]
+          - paragraph [ref=e68]: Create a reason to do something together, not another feed to scroll.
+        - article [ref=e69]:
+          - text: ↳
+          - heading "Contribution" [level=3] [ref=e70]
+          - paragraph [ref=e71]: Match useful problems with people who want to help solve them.
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - generic [ref=e74]:
+          - paragraph [ref=e75]: The Fresco Method
+          - heading "Stop arguing in the abstract. Test the environment." [level=2] [ref=e76]
+        - link "Read the method" [ref=e77] [cursor=pointer]:
+          - /url: /method
+      - list "The Fresco Method" [ref=e82]:
+        - listitem [ref=e83]:
+          - generic [ref=e84]: "01"
+          - strong [ref=e85]: Observe
+          - generic [aria-hidden] [ref=e86]: →
+        - listitem [ref=e87]:
+          - generic [ref=e88]: "02"
+          - strong [ref=e89]: Goal
+          - generic [aria-hidden] [ref=e90]: →
+        - listitem [ref=e91]:
+          - generic [ref=e92]: "03"
+          - strong [ref=e93]: Hypothesis
+          - generic [aria-hidden] [ref=e94]: →
+        - listitem [ref=e95]:
+          - generic [ref=e96]: "04"
+          - strong [ref=e97]: Experiment
+          - generic [aria-hidden] [ref=e98]: →
+        - listitem [ref=e99]:
+          - generic [ref=e100]: "05"
+          - strong [ref=e101]: Result
+          - generic [aria-hidden] [ref=e102]: →
+        - listitem [ref=e103]:
+          - generic [ref=e104]: "06"
+          - strong [ref=e105]: Improve
+    - generic [ref=e107]:
+      - generic [ref=e108]:
+        - paragraph [ref=e109]: Example experiment · demo
+        - heading "What if movement began with belonging?" [level=2] [ref=e110]
+        - paragraph [ref=e111]: Twenty-four illustrative participants join small walking groups for 30 days. The numbers below demonstrate how Fresco reports evidence; they are not real trial findings.
+        - link "Inspect the full experiment" [ref=e112] [cursor=pointer]:
+          - /url: /experiments/social-walking-groups-trial-1
+      - generic [ref=e116]:
+        - generic [ref=e117]:
+          - strong [ref=e118]: 82 → 147
+          - paragraph [ref=e119]: active minutes / week
+        - generic [ref=e120]:
+          - strong [ref=e121]: 79%
+          - paragraph [ref=e122]: illustrative retention
+        - generic [ref=e123]:
+          - strong [ref=e124]: +18%
+          - paragraph [ref=e125]: reported enjoyment
+        - generic [ref=e126]:
+          - strong [ref=e127]: $1.80
+          - paragraph [ref=e128]: estimated cost / person
+    - generic [ref=e129]:
+      - generic [ref=e130]:
+        - paragraph [ref=e135]: Society as a living design
+        - heading "There is no final design." [level=2] [ref=e136]
+        - paragraph [ref=e137]: Fresco is not a finished model for society. It’s a process for discovering better ones. Every assumption remains open to evidence, including the ideas that inspired Fresco.
+      - generic [ref=e138]:
+        - paragraph [ref=e143]: Digital first
+        - heading "We do not need a city to begin." [level=2] [ref=e144]
+        - paragraph [ref=e145]: "Our first environment is one people already spend enormous time inside: the digital environment. We can test the method here, learn cheaply, and publish the failures."
+    - generic [ref=e147]:
+      - generic [ref=e148]:
+        - paragraph [ref=e149]: Open knowledge
+        - heading "The project must remember what it learns." [level=2] [ref=e150]
+      - generic [ref=e151]:
+        - paragraph [ref=e152]: Software, assumptions, experiments, research, results, and decisions remain inspectable. Git history and structured knowledge create scientific version control for an evolving society.
+        - generic [ref=e153]:
+          - generic [ref=e154]: Software
+          - generic [ref=e155]: Hypotheses
+          - generic [ref=e156]: Results
+          - generic [ref=e157]: Decisions
+          - generic [ref=e158]: Risks
+          - generic [ref=e159]: Research
+    - generic [ref=e160]:
+      - paragraph [ref=e161]: Founding citizens
+      - heading "Help design the first environment." [level=2] [ref=e162]
+      - paragraph [ref=e163]: Bring a question, challenge an assumption, or join one small test. No utopia required.
+      - link "Become a founding citizen" [ref=e164] [cursor=pointer]:
+        - /url: /join
+  - contentinfo [ref=e168]:
+    - generic [ref=e169]:
+      - generic [ref=e170]:
+        - link "Fresco home" [ref=e171] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e175]: Fresco
+          - generic [ref=e176]: v0.1
+        - paragraph [ref=e177]: A continuous environmental design system for human life. Open, experimental, and unaffiliated with The Venus Project or related organizations.
+      - navigation "Footer navigation" [ref=e178]:
+        - link "Method" [ref=e179] [cursor=pointer]:
+          - /url: /method
+        - link "Principles" [ref=e180] [cursor=pointer]:
+          - /url: /principles
+        - link "Research" [ref=e181] [cursor=pointer]:
+          - /url: /research
+        - link "Source" [ref=e182] [cursor=pointer]:
+          - /url: /github
+  - alert [ref=e183]

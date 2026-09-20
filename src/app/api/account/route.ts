@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { citizens } from "@/db/schema";
 import { currentCitizen, destroySession } from "@/lib/auth";
+import { absoluteUrl } from "@/lib/http";
 
 export async function DELETE() {
   const citizen = await currentCitizen();
@@ -15,8 +16,8 @@ export async function DELETE() {
 
 export async function POST(request: Request) {
   const citizen = await currentCitizen();
-  if (!citizen) return NextResponse.redirect(new URL("/login", request.url), 303);
+  if (!citizen) return NextResponse.redirect(absoluteUrl(request, "/login"), 303);
   await db.delete(citizens).where(eq(citizens.id, citizen.id));
   await destroySession();
-  return NextResponse.redirect(new URL("/?account=deleted", request.url), 303);
+  return NextResponse.redirect(absoluteUrl(request, "/?account=deleted"), 303);
 }

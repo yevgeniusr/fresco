@@ -6,7 +6,7 @@ import { citizens } from "@/db/schema";
 import { createSession } from "@/lib/auth";
 import { hashPassword } from "@/lib/password";
 import { newId } from "@/lib/ids";
-import { redirectWith } from "@/lib/http";
+import { absoluteUrl, redirectWith } from "@/lib/http";
 import { formObject, signupSchema } from "@/lib/validation";
 
 export async function POST(request: Request) {
@@ -18,5 +18,5 @@ export async function POST(request: Request) {
   const id = newId("cit");
   await db.insert(citizens).values({ id, ...parsed.data, passwordHash: await hashPassword(parsed.data.password) });
   await createSession(id);
-  return NextResponse.redirect(new URL("/app?welcome=1", request.url), 303);
+  return NextResponse.redirect(absoluteUrl(request, "/app?welcome=1"), 303);
 }
