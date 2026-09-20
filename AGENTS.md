@@ -1,9 +1,22 @@
-<!-- BEGIN:nextjs-agent-rules -->
+# Fresco Agent Instructions
 
-# This is NOT the Next.js you know
+Before substantial work:
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+1. Read `.okf/index.md`.
+2. Identify the relevant domains.
+3. Read related Principles, Decisions, Risks, Metrics, RFCs, and ADRs.
+4. Understand existing constraints before changing the system.
 
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+During work:
 
-<!-- END:nextjs-agent-rules -->
+5. Do not violate Principles silently. Surface proposed changes explicitly.
+6. Prefer measurable behavior over assumptions and keep changes focused.
+7. Add proportionate verification. Do not duplicate existing knowledge.
+8. Keep runtime records in PostgreSQL and durable institutional knowledge in OKF.
+
+After substantial work:
+
+9. Ask: **What did we learn?**
+10. Update affected OKF concepts only when project knowledge changed.
+11. Record material architecture decisions, experiment results, and decisions.
+12. Supersede stale knowledge instead of leaving contradictions.

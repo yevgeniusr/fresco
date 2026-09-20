@@ -1,69 +1,27 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowDown, ArrowRight, FlaskConical, GitBranch, Layers3, MoveUpRight } from "lucide-react";
+import { MethodLoop } from "@/components/method-loop";
+
+export const dynamic = "force-dynamic";
+
+const examples = [
+  ["Exercise", "Make movement social and nearby, instead of adding another reminder."],
+  ["Learning", "Turn a vague intention into one relevant, self-chosen next question."],
+  ["Loneliness", "Create a reason to do something together, not another feed to scroll."],
+  ["Contribution", "Match useful problems with people who want to help solve them."],
+] as const;
 
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+  return <>
+    <section className="shell grid min-h-[calc(100vh-65px)] items-center gap-14 py-16 lg:grid-cols-[1.1fr_.9fr] lg:py-20">
+      <div><p className="eyebrow flex items-center gap-2"><span className="h-px w-8 bg-[var(--oxide)]" />An open experimental community</p><h1 className="serif mt-7 max-w-4xl text-[clamp(3.4rem,8vw,7.5rem)] font-bold leading-[.82] tracking-[-.072em]">Design better<br /><em className="font-normal text-[var(--oxide)]">environments.</em></h1><p className="mt-8 max-w-2xl text-lg leading-8 text-[var(--muted)]">Run experiments. Improve how we live. Fresco explores how intentionally designed digital, social, and eventually physical environments can make healthy, educated, connected, creative lives easier.</p><div className="mt-9 flex flex-wrap gap-3"><Link href="/join" className="btn btn-acid">Join the experiment <ArrowRight size={15} /></Link><Link href="/experiments" className="btn btn-ghost">Explore experiments</Link><Link href="/github" className="btn border-0 px-2"><GitBranch size={15} /> View source</Link></div><a href="#premise" className="mt-12 inline-flex items-center gap-2 text-xs font-bold no-underline"><ArrowDown size={14} /> The premise</a></div>
+      <div className="relative mx-auto aspect-square w-full max-w-[510px]"><div className="absolute inset-[8%] rounded-full border border-[var(--line)]" /><div className="absolute inset-[22%] rounded-full border border-dashed border-[var(--moss)]" /><div className="absolute inset-[36%] grid place-items-center rounded-full bg-[var(--ink)] text-center text-white shadow-2xl"><span className="serif text-2xl font-bold">Human<br />outcome</span></div><span className="absolute left-[8%] top-[16%] rotate-[-8deg] bg-[var(--acid)] px-3 py-2 text-xs font-bold">observe</span><span className="absolute right-[2%] top-[37%] rotate-[5deg] border border-[var(--ink)] bg-[var(--paper)] px-3 py-2 text-xs font-bold">experiment</span><span className="absolute bottom-[11%] left-[24%] rotate-[3deg] bg-[var(--oxide)] px-3 py-2 text-xs font-bold text-white">learn</span><svg className="absolute inset-0 h-full w-full" viewBox="0 0 500 500" role="img" aria-label="An evolving composition of observed outcomes and experiments"><path d="M54 278 C88 120 320 37 438 168" fill="none" stroke="var(--indigo)" strokeWidth="3" /><path d="M83 341 C205 458 414 394 448 249" fill="none" stroke="var(--oxide)" strokeWidth="10" strokeLinecap="round" opacity=".72" /><circle cx="55" cy="279" r="9" fill="var(--indigo)" /><circle cx="438" cy="168" r="9" fill="var(--acid)" stroke="var(--ink)" /></svg></div>
+    </section>
+    <section id="premise" className="border-y hairline bg-[var(--paper)] py-24"><div className="shell grid gap-12 lg:grid-cols-[.8fr_1.2fr]"><div><p className="eyebrow">The premise</p><h2 className="serif mt-5 text-4xl font-bold leading-tight tracking-[-.04em]">We keep asking people to change inside systems designed for the opposite.</h2></div><div className="grid gap-px border hairline bg-[var(--line)] sm:grid-cols-2">{examples.map(([title, copy]) => <article key={title} className="bg-[var(--paper)] p-6"><span className="serif text-3xl text-[var(--oxide)]">↳</span><h3 className="mt-4 font-bold">{title}</h3><p className="mt-2 text-sm leading-6 text-[var(--muted)]">{copy}</p></article>)}</div></div></section>
+    <section className="shell py-24"><div className="flex flex-wrap items-end justify-between gap-6"><div><p className="eyebrow">The Fresco Method</p><h2 className="serif mt-5 max-w-3xl text-5xl font-bold tracking-[-.05em]">Stop arguing in the abstract. Test the environment.</h2></div><Link href="/method" className="btn btn-ghost">Read the method <MoveUpRight size={15} /></Link></div><div className="mt-12"><MethodLoop /></div></section>
+    <section className="bg-[var(--indigo)] py-24 text-white"><div className="shell grid gap-12 lg:grid-cols-[.8fr_1.2fr]"><div><p className="eyebrow !text-[var(--acid)]">Example experiment · demo</p><h2 className="serif mt-6 text-5xl font-bold tracking-[-.05em]">What if movement began with belonging?</h2><p className="mt-5 max-w-lg leading-7 text-white/68">Twenty-four illustrative participants join small walking groups for 30 days. The numbers below demonstrate how Fresco reports evidence; they are not real trial findings.</p><Link href="/experiments/social-walking-groups-trial-1" className="btn mt-8 border-white/35 text-white">Inspect the full experiment <ArrowRight size={15} /></Link></div><div className="grid content-start gap-px bg-white/20 sm:grid-cols-2">{[["82 → 147", "active minutes / week"],["79%", "illustrative retention"],["+18%", "reported enjoyment"],["$1.80", "estimated cost / person"]].map(([value,label]) => <div key={label} className="bg-[var(--indigo)] p-8"><strong className="serif text-5xl text-[var(--acid)]">{value}</strong><p className="mt-3 text-xs font-bold uppercase tracking-[.1em] text-white/60">{label}</p></div>)}</div></div></section>
+    <section className="shell grid gap-16 py-24 lg:grid-cols-2"><div className="paper relative overflow-hidden p-8 sm:p-12"><Layers3 className="text-[var(--oxide)]" /><p className="eyebrow mt-14">Society as a living design</p><h2 className="serif mt-5 text-4xl font-bold tracking-[-.04em]">There is no final design.</h2><p className="mt-5 leading-7 text-[var(--muted)]">Fresco is not a finished model for society. It’s a process for discovering better ones. Every assumption remains open to evidence, including the ideas that inspired Fresco.</p></div><div className="paper relative overflow-hidden p-8 sm:p-12"><FlaskConical className="text-[var(--indigo)]" /><p className="eyebrow mt-14">Digital first</p><h2 className="serif mt-5 text-4xl font-bold tracking-[-.04em]">We do not need a city to begin.</h2><p className="mt-5 leading-7 text-[var(--muted)]">Our first environment is one people already spend enormous time inside: the digital environment. We can test the method here, learn cheaply, and publish the failures.</p></div></section>
+    <section className="border-y hairline bg-[var(--paper)] py-24"><div className="shell grid gap-10 lg:grid-cols-[.9fr_1.1fr] lg:items-center"><div><p className="eyebrow">Open knowledge</p><h2 className="serif mt-5 text-5xl font-bold tracking-[-.05em]">The project must remember what it learns.</h2></div><div><p className="text-lg leading-8 text-[var(--muted)]">Software, assumptions, experiments, research, results, and decisions remain inspectable. Git history and structured knowledge create scientific version control for an evolving society.</p><div className="mt-8 flex flex-wrap gap-2">{["Software","Hypotheses","Results","Decisions","Risks","Research"].map(x => <span className="tag" key={x}>{x}</span>)}</div></div></div></section>
+    <section className="shell py-24 text-center"><p className="eyebrow">Founding citizens</p><h2 className="serif mx-auto mt-6 max-w-4xl text-6xl font-bold tracking-[-.055em]">Help design the first environment.</h2><p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[var(--muted)]">Bring a question, challenge an assumption, or join one small test. No utopia required.</p><Link href="/join" className="btn btn-primary mt-9">Become a founding citizen <ArrowRight size={15} /></Link></section>
+  </>;
 }

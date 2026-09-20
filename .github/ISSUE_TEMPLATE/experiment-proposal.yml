@@ -1,0 +1,21 @@
+name: Experiment proposal
+description: Propose a structured environmental experiment
+title: "Experiment: "
+labels: ["experiment"]
+body:
+  - type: textarea
+    id: observation
+    attributes: { label: Observation, description: What is happening now? }
+    validations: { required: true }
+  - type: textarea
+    id: goal
+    attributes: { label: Desired outcome, description: What measurable human outcome should improve? }
+    validations: { required: true }
+  - type: textarea
+    id: hypothesis
+    attributes: { label: Hypothesis, description: Which environmental change may cause improvement? }
+    validations: { required: true }
+  - type: textarea
+    id: guardrails
+    attributes: { label: Metrics, guardrails, and privacy, description: What will be measured, what must not get worse, and what stays private? }
+    validations: { required: true }
