@@ -1,43 +1,446 @@
 import Link from "next/link";
-import { AlertTriangle, ArrowLeft, Check, Database, LockKeyhole, ShieldCheck, Users } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowLeft,
+  Check,
+  Database,
+  LockKeyhole,
+  ShieldCheck,
+  Users,
+} from "lucide-react";
 
 import type { getExperiment } from "@/lib/queries";
 
 type ExperimentData = NonNullable<Awaited<ReturnType<typeof getExperiment>>>;
-type Props = { data: ExperimentData; authenticated: boolean; appMode?: boolean; message?: { kind: "error" | "success"; text: string } | null };
+type Props = {
+  data: ExperimentData;
+  authenticated: boolean;
+  appMode?: boolean;
+  message?: { kind: "error" | "success"; text: string } | null;
+};
 
-function Section({ index, title, children }: { index: string; title: string; children: React.ReactNode }) {
-  return <section className="grid gap-3 border-t hairline py-7 sm:grid-cols-[5rem_1fr]"><span className="eyebrow">{index}</span><div><h2 className="serif text-3xl font-bold tracking-[-.03em]">{title}</h2><div className="mt-3 leading-7 text-[var(--muted)]">{children}</div></div></section>;
+function Section({
+  index,
+  title,
+  children,
+}: {
+  index: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="grid gap-3 border-t hairline py-7 sm:grid-cols-[5rem_1fr]">
+      <span className="eyebrow">{index}</span>
+      <div>
+        <h2 className="serif text-3xl font-bold tracking-[-.03em]">{title}</h2>
+        <div className="mt-3 leading-7 text-[var(--muted)]">{children}</div>
+      </div>
+    </section>
+  );
 }
 
-export function ExperimentDetail({ data, authenticated, appMode = false, message }: Props) {
+export function ExperimentDetail({
+  data,
+  authenticated,
+  appMode = false,
+  message,
+}: Props) {
   const { experiment, idea, goal, result, decision } = data;
   const joined = data.participation && !data.participation.withdrawnAt;
   const returnPath = `${appMode ? "/app" : ""}/experiments/${experiment.slug}`;
-  return <div className="shell py-10 sm:py-16">
-    <Link href={appMode ? "/app" : "/experiments"} className="inline-flex items-center gap-2 text-xs font-bold no-underline"><ArrowLeft size={14} /> {appMode ? "Back to lab" : "All experiments"}</Link>
-    {message ? <div className={`alert mt-6 ${message.kind === "success" ? "!border-[var(--moss)]" : ""}`}>{message.text}</div> : null}
-    <header className="mt-8 grid gap-10 border-b hairline pb-12 lg:grid-cols-[1fr_19rem]">
-      <div><div className="flex flex-wrap gap-2"><span className="tag">{goal.domain}</span><span className="tag gap-2"><span className="status-dot" />{experiment.status}</span>{experiment.isDemo ? <span className="tag !border-[var(--oxide)] !text-[var(--oxide-dark)]">Demo data</span> : null}</div><p className="eyebrow mt-8">Experiment / {experiment.id.replace("exp_", "")}</p><h1 className="serif mt-4 max-w-4xl text-5xl font-bold leading-[.98] tracking-[-.055em] sm:text-7xl">{experiment.title}</h1><p className="mt-7 max-w-3xl text-xl leading-9 text-[var(--muted)]">{experiment.question}</p></div>
-      <aside className="paper p-6"><p className="eyebrow">Participation</p><div className="mt-5 flex items-end justify-between"><strong className="serif text-4xl">{data.participantCount}<span className="text-xl text-[var(--muted)]">/{experiment.participantTarget}</span></strong><Users size={20} /></div><div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[var(--line)]"><div className="h-full bg-[var(--oxide)]" style={{ width: `${Math.min(100, (data.participantCount / experiment.participantTarget) * 100)}%` }} /></div><dl className="mt-6 grid gap-3 text-xs"><div className="flex justify-between"><dt className="text-[var(--muted)]">Duration</dt><dd className="font-bold">{experiment.durationDays} days</dd></div><div className="flex justify-between"><dt className="text-[var(--muted)]">Time burden</dt><dd className="ml-5 text-right font-bold">{experiment.timeBurden}</dd></div></dl>
-      {experiment.status === "Recruiting" ? joined ? <form action={`/api/experiments/${experiment.id}/withdraw`} method="post"><button className="btn btn-ghost mt-6 w-full" type="submit">Withdraw freely</button></form> : <form action={`/api/experiments/${experiment.id}/join`} method="post"><p className="mt-6 text-[.7rem] leading-5 text-[var(--muted)]">By joining, you confirm you read the intervention, data, privacy, burden, and withdrawal terms below.</p><button className="btn btn-primary mt-3 w-full" type="submit">{authenticated ? "Join voluntarily" : "Sign in to join"}</button></form> : null}</aside>
-    </header>
-    {experiment.isDemo ? <div className="mt-8 flex gap-3 border border-[var(--oxide)] bg-[rgb(184_76_46/.07)] p-4 text-sm leading-6"><AlertTriangle className="mt-0.5 shrink-0 text-[var(--oxide)]" size={18} /><p><strong>Illustrative data:</strong> This seeded experiment demonstrates the Fresco process. It did not happen, and its numbers are not evidence.</p></div> : null}
-    <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_19rem]">
-      <div>
-        <Section index="01" title="Goal"><Link href={`${appMode ? "/app" : "/app"}/goals/${goal.slug}`} className="font-bold text-[var(--ink)]">{goal.title}</Link><p className="mt-2">{goal.baseline} → {goal.desiredTarget}, measured as {goal.targetMetric.toLowerCase()}.</p></Section>
-        <Section index="02" title="Hypothesis"><p>{experiment.hypothesis}</p><p className="mt-3 text-sm"><strong className="text-[var(--ink)]">Proposed idea:</strong> {idea.title}</p></Section>
-        <Section index="03" title="Intervention"><p>{experiment.intervention}</p></Section>
-        <Section index="04" title="Metrics"><p><strong className="text-[var(--ink)]">Primary:</strong> {experiment.primaryMetric}</p><ul className="mt-3 list-disc pl-5">{experiment.secondaryMetrics.map(metric => <li key={metric}>{metric}</li>)}</ul></Section>
-        <Section index="05" title="Guardrails"><ul className="grid gap-2">{experiment.guardrails.map(item => <li className="flex gap-2" key={item}><ShieldCheck className="mt-1 shrink-0 text-[var(--moss)]" size={16} />{item}</li>)}</ul></Section>
-        <Section index="06" title="Participation"><p>{experiment.participantEligibility}</p><p className="mt-3"><strong className="text-[var(--ink)]">Baseline:</strong> {experiment.baseline}</p></Section>
-        <Section index="07" title="Privacy & data"><div className="grid gap-4 sm:grid-cols-2"><div className="border hairline p-4"><Database size={18} className="text-[var(--indigo)]" /><h3 className="mt-3 font-bold text-[var(--ink)]">Collected</h3><p className="mt-2 text-sm">{experiment.dataCollected}</p></div><div className="border hairline p-4"><LockKeyhole size={18} className="text-[var(--oxide)]" /><h3 className="mt-3 font-bold text-[var(--ink)]">Boundary</h3><p className="mt-2 text-sm">{experiment.privacyNotes}</p></div></div></Section>
-        {result ? <><Section index="08" title="Results"><p>{result.summary}</p><div className="metric-grid mt-6">{result.measurements.map(metric => <div key={metric.label}><strong className="serif text-2xl text-[var(--ink)]">{metric.value}</strong><p className="mt-2 text-xs font-bold text-[var(--ink)]">{metric.label}</p>{metric.note ? <p className="mt-1 text-xs">{metric.note}</p> : null}</div>)}</div><div className="mt-7 grid gap-6 sm:grid-cols-2"><div><h3 className="font-bold text-[var(--ink)]">Observed positives</h3><ul className="mt-2 list-disc pl-5">{result.positiveEffects.map(item => <li key={item}>{item}</li>)}</ul></div><div><h3 className="font-bold text-[var(--ink)]">Negative effects</h3><ul className="mt-2 list-disc pl-5">{result.negativeEffects.map(item => <li key={item}>{item}</li>)}</ul></div></div></Section><Section index="09" title="Limitations"><ul className="list-disc pl-5">{result.limitations.map(item => <li key={item}>{item}</li>)}</ul><p className="mt-4"><strong className="text-[var(--ink)]">Confidence:</strong> {result.confidenceNotes}</p></Section></> : null}
-        {decision ? <Section index={result ? "10" : "08"} title="Decision"><div className="flex items-center gap-3"><span className="tag !border-[var(--oxide)] !bg-[rgb(184_76_46/.08)] !text-[var(--oxide-dark)]">{decision.outcome}</span><span className="text-sm">Moderator decision</span></div><p className="mt-4">{decision.reasoning}</p></Section> : null}
+  return (
+    <div className="shell py-10 sm:py-16">
+      <Link
+        href={appMode ? "/app" : "/experiments"}
+        className="inline-flex items-center gap-2 text-xs font-bold no-underline"
+      >
+        <ArrowLeft size={14} /> {appMode ? "Back to lab" : "All experiments"}
+      </Link>
+      {message ? (
+        <div
+          className={`alert mt-6 ${message.kind === "success" ? "!border-[var(--moss)]" : ""}`}
+        >
+          {message.text}
+        </div>
+      ) : null}
+      <header className="mt-8 grid gap-10 border-b hairline pb-12 lg:grid-cols-[1fr_19rem]">
+        <div>
+          <div className="flex flex-wrap gap-2">
+            <span className="tag">{goal.domain}</span>
+            <span className="tag gap-2">
+              <span className="status-dot" />
+              {experiment.status}
+            </span>
+            {experiment.isDemo ? (
+              <span className="tag !border-[var(--oxide)] !text-[var(--oxide-dark)]">
+                Demo data
+              </span>
+            ) : null}
+          </div>
+          <p className="eyebrow mt-8">
+            Experiment / {experiment.id.replace("exp_", "")}
+          </p>
+          <h1 className="serif mt-4 max-w-4xl text-5xl font-bold leading-[.98] tracking-[-.055em] sm:text-7xl">
+            {experiment.title}
+          </h1>
+          <p className="mt-7 max-w-3xl text-xl leading-9 text-[var(--muted)]">
+            {experiment.question}
+          </p>
+        </div>
+        <aside className="paper p-6">
+          <p className="eyebrow">Participation</p>
+          <div className="mt-5 flex items-end justify-between">
+            <strong className="serif text-4xl">
+              {data.participantCount}
+              <span className="text-xl text-[var(--muted)]">
+                /{experiment.participantTarget}
+              </span>
+            </strong>
+            <Users size={20} />
+          </div>
+          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[var(--line)]">
+            <div
+              className="h-full bg-[var(--oxide)]"
+              style={{
+                width: `${Math.min(100, (data.participantCount / experiment.participantTarget) * 100)}%`,
+              }}
+            />
+          </div>
+          <dl className="mt-6 grid gap-3 text-xs">
+            <div className="flex justify-between">
+              <dt className="text-[var(--muted)]">Duration</dt>
+              <dd className="font-bold">{experiment.durationDays} days</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-[var(--muted)]">Time burden</dt>
+              <dd className="ml-5 text-right font-bold">
+                {experiment.timeBurden}
+              </dd>
+            </div>
+          </dl>
+          {experiment.status === "Recruiting" ? (
+            joined ? (
+              <form
+                action={`/api/experiments/${experiment.id}/withdraw`}
+                method="post"
+              >
+                <button className="btn btn-ghost mt-6 w-full" type="submit">
+                  Withdraw freely
+                </button>
+              </form>
+            ) : (
+              <form
+                action={`/api/experiments/${experiment.id}/join`}
+                method="post"
+              >
+                <p className="mt-6 text-[.7rem] leading-5 text-[var(--muted)]">
+                  By joining, you confirm you read the intervention, data,
+                  privacy, burden, and withdrawal terms below.
+                </p>
+                <button className="btn btn-primary mt-3 w-full" type="submit">
+                  {authenticated ? "Join voluntarily" : "Sign in to join"}
+                </button>
+              </form>
+            )
+          ) : null}
+        </aside>
+      </header>
+      {experiment.isDemo ? (
+        <div className="mt-8 flex gap-3 border border-[var(--oxide)] bg-[rgb(184_76_46/.07)] p-4 text-sm leading-6">
+          <AlertTriangle
+            className="mt-0.5 shrink-0 text-[var(--oxide)]"
+            size={18}
+          />
+          <p>
+            <strong>Illustrative data:</strong> This seeded experiment
+            demonstrates the Fresco process. It did not happen, and its numbers
+            are not evidence.
+          </p>
+        </div>
+      ) : null}
+      <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_19rem]">
+        <div>
+          <Section index="01" title="Goal">
+            <Link
+              href={`${appMode ? "/app" : "/app"}/goals/${goal.slug}`}
+              className="font-bold text-[var(--ink)]"
+            >
+              {goal.title}
+            </Link>
+            <p className="mt-2">
+              {goal.baseline} → {goal.desiredTarget}, measured as{" "}
+              {goal.targetMetric.toLowerCase()}.
+            </p>
+          </Section>
+          <Section index="02" title="Hypothesis">
+            <p>{experiment.hypothesis}</p>
+            <p className="mt-3 text-sm">
+              <strong className="text-[var(--ink)]">Proposed idea:</strong>{" "}
+              {idea.title}
+            </p>
+          </Section>
+          <Section index="03" title="Intervention">
+            <p>{experiment.intervention}</p>
+          </Section>
+          <Section index="04" title="Metrics">
+            <p>
+              <strong className="text-[var(--ink)]">Primary:</strong>{" "}
+              {experiment.primaryMetric}
+            </p>
+            <ul className="mt-3 list-disc pl-5">
+              {experiment.secondaryMetrics.map((metric) => (
+                <li key={metric}>{metric}</li>
+              ))}
+            </ul>
+          </Section>
+          <Section index="05" title="Guardrails">
+            <ul className="grid gap-2">
+              {experiment.guardrails.map((item) => (
+                <li className="flex gap-2" key={item}>
+                  <ShieldCheck
+                    className="mt-1 shrink-0 text-[var(--moss)]"
+                    size={16}
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Section>
+          <Section index="06" title="Participation">
+            <p>{experiment.participantEligibility}</p>
+            <p className="mt-3">
+              <strong className="text-[var(--ink)]">Baseline:</strong>{" "}
+              {experiment.baseline}
+            </p>
+          </Section>
+          <Section index="07" title="Privacy & data">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="border hairline p-4">
+                <Database size={18} className="text-[var(--indigo)]" />
+                <h3 className="mt-3 font-bold text-[var(--ink)]">Collected</h3>
+                <p className="mt-2 text-sm">{experiment.dataCollected}</p>
+              </div>
+              <div className="border hairline p-4">
+                <LockKeyhole size={18} className="text-[var(--oxide)]" />
+                <h3 className="mt-3 font-bold text-[var(--ink)]">Boundary</h3>
+                <p className="mt-2 text-sm">{experiment.privacyNotes}</p>
+              </div>
+            </div>
+          </Section>
+          {result ? (
+            <>
+              <Section index="08" title="Results">
+                <p>{result.summary}</p>
+                <div className="metric-grid mt-6">
+                  {result.measurements.map((metric) => (
+                    <div key={metric.label}>
+                      <strong className="serif text-2xl text-[var(--ink)]">
+                        {metric.value}
+                      </strong>
+                      <p className="mt-2 text-xs font-bold text-[var(--ink)]">
+                        {metric.label}
+                      </p>
+                      {metric.note ? (
+                        <p className="mt-1 text-xs">{metric.note}</p>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-7 grid gap-6 sm:grid-cols-2">
+                  <div>
+                    <h3 className="font-bold text-[var(--ink)]">
+                      Observed positives
+                    </h3>
+                    <ul className="mt-2 list-disc pl-5">
+                      {result.positiveEffects.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-[var(--ink)]">
+                      Negative effects
+                    </h3>
+                    <ul className="mt-2 list-disc pl-5">
+                      {result.negativeEffects.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </Section>
+              <Section index="09" title="Limitations">
+                <ul className="list-disc pl-5">
+                  {result.limitations.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+                <p className="mt-4">
+                  <strong className="text-[var(--ink)]">Confidence:</strong>{" "}
+                  {result.confidenceNotes}
+                </p>
+              </Section>
+            </>
+          ) : null}
+          {decision ? (
+            <Section index={result ? "10" : "08"} title="Decision">
+              <div className="flex items-center gap-3">
+                <span className="tag !border-[var(--oxide)] !bg-[rgb(184_76_46/.08)] !text-[var(--oxide-dark)]">
+                  {decision.outcome}
+                </span>
+                <span className="text-sm">Moderator decision</span>
+              </div>
+              <p className="mt-4">{decision.reasoning}</p>
+            </Section>
+          ) : null}
+        </div>
+        <aside className="space-y-6 lg:sticky lg:top-6 lg:self-start">
+          <div className="border-l-2 border-[var(--indigo)] pl-5">
+            <p className="eyebrow">What are we learning?</p>
+            <p className="serif mt-3 text-xl font-bold">
+              {experiment.question}
+            </p>
+          </div>
+          <div>
+            <p className="eyebrow">Community signals</p>
+            <div className="mt-3 grid gap-2">
+              {(
+                ["Scale", "Modify", "Repeat", "Stop", "Inconclusive"] as const
+              ).map((outcome) => (
+                <div
+                  className="flex items-center justify-between border-b hairline py-2 text-sm"
+                  key={outcome}
+                >
+                  <span>{outcome}</span>
+                  <strong>
+                    {data.signals.find((signal) => signal.outcome === outcome)
+                      ?.total ?? 0}
+                  </strong>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs leading-5 text-[var(--muted)]">
+              Signals guide review. They are not binding elections.
+            </p>
+          </div>
+        </aside>
       </div>
-      <aside className="space-y-6 lg:sticky lg:top-6 lg:self-start"><div className="border-l-2 border-[var(--indigo)] pl-5"><p className="eyebrow">What are we learning?</p><p className="serif mt-3 text-xl font-bold">{experiment.question}</p></div><div><p className="eyebrow">Community signals</p><div className="mt-3 grid gap-2">{(["Scale","Modify","Repeat","Stop","Inconclusive"] as const).map(outcome => <div className="flex items-center justify-between border-b hairline py-2 text-sm" key={outcome}><span>{outcome}</span><strong>{data.signals.find(signal => signal.outcome === outcome)?.total ?? 0}</strong></div>)}</div><p className="mt-3 text-xs leading-5 text-[var(--muted)]">Signals guide review. They are not binding elections.</p></div></aside>
+      <section className="mt-16 border-t hairline pt-10">
+        <div className="grid gap-10 lg:grid-cols-2">
+          <div>
+            <p className="eyebrow">Discussion</p>
+            <h2 className="serif mt-4 text-4xl font-bold">
+              Questions and criticism
+            </h2>
+            <div className="mt-6 grid gap-3">
+              {data.comments.length ? (
+                data.comments.map((comment) => (
+                  <article key={comment.id} className="paper p-5">
+                    <div className="flex justify-between gap-4 text-xs">
+                      <strong>{comment.author}</strong>
+                      <time className="text-[var(--muted)]">
+                        {comment.createdAt.toLocaleDateString()}
+                      </time>
+                    </div>
+                    <p className="mt-3 text-sm leading-6">{comment.body}</p>
+                  </article>
+                ))
+              ) : (
+                <p className="text-sm text-[var(--muted)]">
+                  No discussion yet. The first useful challenge is welcome.
+                </p>
+              )}
+            </div>
+          </div>
+          <div>
+            {authenticated ? (
+              <>
+                <form
+                  action={`/api/experiments/${experiment.id}/comments`}
+                  method="post"
+                  className="paper p-5"
+                >
+                  <div className="field">
+                    <label htmlFor="body">
+                      Add a question, concern, or alternative explanation
+                    </label>
+                    <textarea
+                      className="input"
+                      id="body"
+                      name="body"
+                      required
+                      minLength={2}
+                      maxLength={2000}
+                    />
+                  </div>
+                  <button className="btn btn-primary mt-4" type="submit">
+                    Add to discussion
+                  </button>
+                </form>
+                {experiment.status === "Completed" ? (
+                  <form
+                    action={`/api/experiments/${experiment.id}/signals`}
+                    method="post"
+                    className="paper mt-4 p-5"
+                  >
+                    <p className="eyebrow">Your signal</p>
+                    <div className="field mt-4">
+                      <label htmlFor="outcome">What should happen next?</label>
+                      <select
+                        className="input"
+                        id="outcome"
+                        name="outcome"
+                        required
+                        defaultValue={data.userSignal?.outcome ?? "Inconclusive"}
+                      >
+                        <option>Scale</option>
+                        <option>Modify</option>
+                        <option>Repeat</option>
+                        <option>Stop</option>
+                        <option>Inconclusive</option>
+                      </select>
+                    </div>
+                    <div className="field mt-4">
+                      <label htmlFor="reasoning">
+                        Why?{" "}
+                        <span className="font-normal text-[var(--muted)]">
+                          (optional)
+                        </span>
+                      </label>
+                      <textarea
+                        className="input"
+                        id="reasoning"
+                        name="reasoning"
+                        maxLength={1000}
+                        defaultValue={data.userSignal?.reasoning ?? ""}
+                      />
+                    </div>
+                    <button className="btn btn-acid mt-4" type="submit">
+                      <Check size={15} /> {data.userSignal ? "Update signal" : "Submit signal"}
+                    </button>
+                  </form>
+                ) : null}
+              </>
+            ) : (
+              <div className="paper p-7">
+                <p className="serif text-2xl font-bold">
+                  Discussion belongs to citizens.
+                </p>
+                <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+                  Create an account to ask questions, join recruiting
+                  experiments, and submit community signals.
+                </p>
+                <Link
+                  href={`/login?returnTo=${encodeURIComponent(returnPath)}`}
+                  className="btn btn-primary mt-5"
+                >
+                  Sign in
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
     </div>
-    <section className="mt-16 border-t hairline pt-10"><div className="grid gap-10 lg:grid-cols-2"><div><p className="eyebrow">Discussion</p><h2 className="serif mt-4 text-4xl font-bold">Questions and criticism</h2><div className="mt-6 grid gap-3">{data.comments.length ? data.comments.map(comment => <article key={comment.id} className="paper p-5"><div className="flex justify-between gap-4 text-xs"><strong>{comment.author}</strong><time className="text-[var(--muted)]">{comment.createdAt.toLocaleDateString()}</time></div><p className="mt-3 text-sm leading-6">{comment.body}</p></article>) : <p className="text-sm text-[var(--muted)]">No discussion yet. The first useful challenge is welcome.</p>}</div></div>
-      <div>{authenticated ? <><form action={`/api/experiments/${experiment.id}/comments`} method="post" className="paper p-5"><div className="field"><label htmlFor="body">Add a question, concern, or alternative explanation</label><textarea className="input" id="body" name="body" required minLength={2} maxLength={2000} /></div><button className="btn btn-primary mt-4" type="submit">Add to discussion</button></form>{experiment.status === "Completed" ? <form action={`/api/experiments/${experiment.id}/signals`} method="post" className="paper mt-4 p-5"><p className="eyebrow">Your signal</p><div className="field mt-4"><label htmlFor="outcome">What should happen next?</label><select className="input" id="outcome" name="outcome" required><option>Scale</option><option>Modify</option><option>Repeat</option><option>Stop</option><option>Inconclusive</option></select></div><div className="field mt-4"><label htmlFor="reasoning">Why? <span className="font-normal text-[var(--muted)]">(optional)</span></label><textarea className="input" id="reasoning" name="reasoning" maxLength={1000} /></div><button className="btn btn-acid mt-4" type="submit"><Check size={15} /> Submit signal</button></form> : null}</> : <div className="paper p-7"><p className="serif text-2xl font-bold">Discussion belongs to citizens.</p><p className="mt-3 text-sm leading-6 text-[var(--muted)]">Create an account to ask questions, join recruiting experiments, and submit community signals.</p><Link href={`/login?returnTo=${encodeURIComponent(returnPath)}`} className="btn btn-primary mt-5">Sign in</Link></div>}</div></div></section>
-  </div>;
+  );
 }

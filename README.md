@@ -10,6 +10,8 @@ Fresco is influenced by Jacque Fresco's emphasis on environmental design, scienc
 
 ![Fresco landing page](docs/screenshots/landing-desktop.png)
 
+<img src="docs/screenshots/landing-mobile.png" alt="Fresco landing page on mobile" width="360" />
+
 ## The Fresco Method
 
 ```text

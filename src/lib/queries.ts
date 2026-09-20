@@ -99,7 +99,7 @@ export async function getExperiment(idOrSlug: string, citizenId?: string) {
     .limit(1);
   const base = rows[0];
   if (!base) return null;
-  const [resultRows, decisionRows, commentRows, signalRows, participantRows, membershipRows] = await Promise.all([
+  const [resultRows, decisionRows, commentRows, signalRows, participantRows, membershipRows, currentSignalRows] = await Promise.all([
     db.select().from(results).where(eq(results.experimentId, base.experiment.id)).limit(1),
     db.select().from(decisions).where(eq(decisions.experimentId, base.experiment.id)).limit(1),
     db.select({ id: comments.id, body: comments.body, createdAt: comments.createdAt, author: citizens.displayName })
@@ -111,6 +111,8 @@ export async function getExperiment(idOrSlug: string, citizenId?: string) {
       .where(and(eq(participations.experimentId, base.experiment.id), isNull(participations.withdrawnAt))),
     citizenId ? db.select().from(participations)
       .where(and(eq(participations.experimentId, base.experiment.id), eq(participations.citizenId, citizenId))).limit(1) : Promise.resolve([]),
+    citizenId ? db.select().from(communitySignals)
+      .where(and(eq(communitySignals.experimentId, base.experiment.id), eq(communitySignals.citizenId, citizenId))).limit(1) : Promise.resolve([]),
   ]);
   return {
     ...base,
@@ -120,6 +122,7 @@ export async function getExperiment(idOrSlug: string, citizenId?: string) {
     signals: signalRows,
     participantCount: participantRows[0]?.total ?? 0,
     participation: membershipRows[0] ?? null,
+    userSignal: currentSignalRows[0] ?? null,
   };
 }
 
