@@ -8,6 +8,8 @@ Fresco is influenced by Jacque Fresco's emphasis on environmental design, scienc
 
 **Fresco is not a finished model for society. It is a process for discovering better ones.**
 
+![Fresco landing page](docs/screenshots/landing-desktop.png)
+
 ## The Fresco Method
 
 ```text
